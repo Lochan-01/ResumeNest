@@ -27,7 +27,8 @@ smart-resume-builder/
 ### Prerequisites
 
 - Node.js 16+ and npm 8+
-- MongoDB (optional, for cloud storage features)
+- MongoDB Atlas account (free tier available at https://www.mongodb.com/cloud/atlas)
+  - Or local MongoDB for development
 
 ### Installation
 
@@ -36,9 +37,23 @@ smart-resume-builder/
 npm run install-all
 ```
 
-2. Configure environment variables:
-   - Create `.env` in `/backend`
-   - Create `.env` in `/frontend`
+2. Set up MongoDB Atlas:
+   - Create a free MongoDB Atlas account (https://www.mongodb.com/cloud/atlas)
+   - Create a cluster and database user
+   - Get your connection string
+   - See [MONGODB_ATLAS_SETUP.md](./MONGODB_ATLAS_SETUP.md) for detailed instructions
+
+3. Configure environment variables:
+   - Copy `.env.example` to `.env` in `/backend`:
+   ```bash
+   cp .env.example backend/.env
+   ```
+   - Update with your MongoDB Atlas connection string:
+   ```
+   MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/resume-builder
+   JWT_SECRET=your-secret-key
+   OPENAI_API_KEY=your-openai-key
+   ```
 
 ### Development
 
@@ -70,13 +85,14 @@ npm run build
 ### Backend
 - Node.js with Express
 - TypeScript
-- MongoDB with Mongoose
+- MongoDB with Mongoose (MongoDB Atlas for cloud)
 - JWT for authentication
 - Multer for file uploads
 
-### AI Integration
-- OpenAI API for content suggestions
-- Natural language processing for resume optimization
+### Database
+- **MongoDB Atlas** - Recommended for production (Free tier available)
+- **Local MongoDB** - Alternative for development
+- See [MONGODB_ATLAS_SETUP.md](./MONGODB_ATLAS_SETUP.md) for setup guide
 
 ## API Endpoints
 
