@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: resume-backend
+    env: node
+    branch: main
+    plan: free
+    buildCommand: cd backend && npm ci
+    startCommand: cd backend && npm start
+    autoDeploy: true
+
+  - type: static
+    name: resume-frontend
+    env: static
+    branch: main
+    plan: free
+    buildCommand: cd frontend && npm ci && npm run build
+    staticPublishPath: frontend/build  # CRA -> build ; change to frontend/dist for Vite
+    autoDeploy: true
