@@ -1,10 +1,11 @@
+# render.yaml - ResumeNest mono-repo
 services:
   - type: web
     name: resume-backend
     env: node
     branch: main
     plan: free
-    buildCommand: cd backend && npm ci
+    buildCommand: cd backend && npm ci && npm run build
     startCommand: cd backend && npm start
     autoDeploy: true
 
@@ -14,5 +15,5 @@ services:
     branch: main
     plan: free
     buildCommand: cd frontend && npm ci && npm run build
-    staticPublishPath: frontend/build  # CRA -> build ; change to frontend/dist for Vite
+    staticPublishPath: frontend/dist   # use frontend/build for CRA
     autoDeploy: true
