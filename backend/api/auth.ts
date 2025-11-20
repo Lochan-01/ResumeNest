@@ -43,8 +43,29 @@ async function register(req: VercelRequest, res: VercelResponse) {
       user: { id: user._id, email: user.email, name: user.name }
     });
   } catch (error: any) {
-    console.error('Register error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('❌ Register Error:', error);
+    console.error('Error Message:', error.message);
+    console.error('Error Code:', error.code);
+    
+    // Provide helpful error messages
+    if (error.message.includes('buffering timed out')) {
+      return res.status(503).json({ 
+        error: 'Database temporarily unavailable. Please try again.',
+        details: 'MongoDB connection timeout'
+      });
+    }
+    
+    if (error.message.includes('authentication failed')) {
+      return res.status(503).json({ 
+        error: 'Database authentication failed',
+        details: 'Check MONGODB_URI credentials'
+      });
+    }
+
+    res.status(500).json({ 
+      error: error.message || 'Registration failed',
+      code: error.code
+    });
   }
 }
 
@@ -80,8 +101,29 @@ async function login(req: VercelRequest, res: VercelResponse) {
       user: { id: user._id, email: user.email, name: user.name }
     });
   } catch (error: any) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('❌ Login Error:', error);
+    console.error('Error Message:', error.message);
+    console.error('Error Code:', error.code);
+    
+    // Provide helpful error messages
+    if (error.message.includes('buffering timed out')) {
+      return res.status(503).json({ 
+        error: 'Database temporarily unavailable. Please try again.',
+        details: 'MongoDB connection timeout'
+      });
+    }
+    
+    if (error.message.includes('authentication failed')) {
+      return res.status(503).json({ 
+        error: 'Database authentication failed',
+        details: 'Check MONGODB_URI credentials'
+      });
+    }
+
+    res.status(500).json({ 
+      error: error.message || 'Login failed',
+      code: error.code
+    });
   }
 }
 
