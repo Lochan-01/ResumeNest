@@ -17,7 +17,7 @@ export default function Register() {
 
     try {
       await authService.register(email, password, name)
-      navigate('/')
+      navigate('/dashboard')
     } catch (err: any) {
       setError(err.response?.data?.error || 'Registration failed')
     } finally {

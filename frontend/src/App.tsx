@@ -13,13 +13,16 @@ function App() {
     <ResumeProvider>
       <BrowserRouter>
         <Routes>
+          {/* Root route - always redirect to login first */}
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           {/* Protected Routes */}
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
