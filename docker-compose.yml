@@ -90,7 +90,7 @@ services:
     networks:
       - resumenest-network
     healthcheck:
-      test: ${BUILD_TARGET:-development} == 'development' ? ["CMD", "curl", "-f", "http://localhost:5173"] : ["CMD", "curl", "-f", "http://localhost/health"]
+      test: ["CMD-SHELL", 'if [ "${BUILD_TARGET:-development}" = "development" ]; then curl -f http://localhost:5173; else curl -f http://localhost/health; fi']
       interval: 30s
       timeout: 5s
       retries: 3
