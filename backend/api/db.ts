@@ -2,20 +2,42 @@ import mongoose from 'mongoose';
 
 const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/resume-builder';
 
-let isConnected = false;
+let isConnected: boolean | mongoose.Connection = false;
 
 export async function connectDB() {
+  // If already connected, return immediately
   if (isConnected) {
-    return;
+    console.log('✅ Using existing MongoDB connection');
+    return isConnected;
   }
 
   try {
-    await mongoose.connect(mongoUri);
-    isConnected = true;
-    console.log('✅ MongoDB Connected');
-  } catch (error) {
-    console.error('❌ MongoDB Connection Error:', error);
-    throw error;
+    const conn = await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4,
+      maxPoolSize: 10,
+      minPoolSize: 5,
+      retryWrites: true,
+      w: 'majority',
+    });
+
+    isConnected = conn.connection;
+    console.log('✅ MongoDB Connected successfully');
+    return isConnected;
+  } catch (error: any) {
+    console.error('❌ MongoDB Connection Error:', error.message);
+    isConnected = false;
+    throw new Error(`MongoDB connection failed: ${error.message}`);
+  }
+}
+
+// Close connection function (for cleanup)
+export async function closeDB() {
+  if (isConnected) {
+    await mongoose.disconnect();
+    isConnected = false;
+    console.log('✅ MongoDB Disconnected');
   }
 }
 
