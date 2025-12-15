@@ -115,7 +115,3 @@ resumenest/
 - See `AUTHENTICATION.md` for auth setup
 - See `MONGODB_SETUP.md` for MongoDB configuration
 - See `IMPLEMENTATION_SUMMARY.md` for feature overview
-
-## License
-
-MIT
